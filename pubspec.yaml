@@ -1,5 +1,5 @@
 name: app_write_util
-description: "Project containing utiils of app_write"
+description: "Project containing utils of app_write"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev

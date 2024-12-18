@@ -57,6 +57,11 @@ class AppWriteUtil {
   }
 
 
+  /// phone validation
+  // userId
+  String? _userId;
+
+
   /// functions
 
   Future<void> init() async {
@@ -64,12 +69,14 @@ class AppWriteUtil {
 
     _client!.setEndpoint(Strings.appWriteUrl)
         // todo remove this
-        .setProject('67556a78003293408500')
+        .setProject('')
         .setSelfSigned();
 
     _account = Account(getClient());
 
-    await _fetchUserDetails();
+    try {
+      await _fetchUserDetails();
+    } catch (_) {}
   }
 
 
@@ -82,6 +89,7 @@ class AppWriteUtil {
 
     } catch (e) {
       printHelper(_tag, 'user is logged out');
+      rethrow;
     }
 
     printHelper(_tag, 'user is logged in');
@@ -121,13 +129,51 @@ class AppWriteUtil {
       final session = await getAccount()
           .createEmailPasswordSession(email: email, password: password);
 
-      _currentUser = await getAccount().get();
+      await _fetchUserDetails();
 
       printHelper(_tag, 'user session creation passed');
       return session;
 
     } catch (e) {
       printHelper(_tag, 'user session creation failed: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+
+  Future<Token> createPhoneToken(String number) async {
+
+    try {
+      final token = await getAccount()
+          .createPhoneToken(userId: ID.unique(), phone: number);
+
+      _userId = token.userId;
+      return token;
+
+    } catch (e) {
+      printHelper(_tag, 'user createPhoneToken failed: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+
+  Future<Session> verifyPhoneToken(String secretCode) async {
+
+    try {
+
+      if (_userId == null) throw Exception('createPhoneToken() not called');
+
+      final session = await getAccount().createSession(
+        userId: _userId!,
+        secret: secretCode,
+      );
+
+      await _fetchUserDetails();
+
+      return session;
+
+    } catch (e) {
+      printHelper(_tag, 'user createPhoneToken failed: ${e.toString()}');
       rethrow;
     }
   }

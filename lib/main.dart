@@ -9,6 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'App Write Util',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -41,9 +42,7 @@ class _TestWidgetState extends State<TestWidget> {
 
     final appWrite = AppWriteUtil.instance;
 
-    await appWrite.init();
-    await appWrite.createUser(name: 'Aakash', email: 'test@gmail.com', password: 'QWERTY123456');
-    await appWrite.createEmailSession(email: 'test@gmail.com', password: 'QWERTY123456');
+    // await appWrite.init();
   }
 
   @override
