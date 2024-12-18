@@ -42,7 +42,7 @@ class _TestWidgetState extends State<TestWidget> {
 
     final appWrite = AppWriteUtil.instance;
 
-    // await appWrite.init();
+    // await appWrite.init('');
   }
 
   @override

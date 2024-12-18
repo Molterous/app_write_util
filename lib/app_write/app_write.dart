@@ -64,12 +64,11 @@ class AppWriteUtil {
 
   /// functions
 
-  Future<void> init() async {
+  Future<void> init(String apiKey) async {
     _client = Client();
 
     _client!.setEndpoint(Strings.appWriteUrl)
-        // todo remove this
-        .setProject('')
+        .setProject(apiKey)
         .setSelfSigned();
 
     _account = Account(getClient());
